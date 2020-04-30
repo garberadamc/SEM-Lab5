@@ -1,0 +1,29 @@
+title: Hayes (2013) TEAMS Case 2 moderation of M -> Y 
+
+data: 
+    file = teams.txt;
+
+variable:
+    names = dysfunc negtone negexp perform;
+    usev = dysfunc negtone negexp perform mz;
+
+define:
+    mz = negtone*negexp;
+    
+analysis:
+    estimator = ml;
+    bootstrap = 10000;
+    
+model:
+    perform on negtone dysfunc negexp mz;
+    negtone on dysfunc;
+
+model indirect:
+    perform MOD negtone negexp(-0.4,0.6,0.1) mz dysfunc (0.4038 0.035);
+   
+output:
+    sampstat cinterval(bootstrap);
+
+plot: 
+    type = plot3;
+
